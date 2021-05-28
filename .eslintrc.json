@@ -1,0 +1,13 @@
+{
+  "extends": ["prettier", "eslint:recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error", {
+        "endOfLine": "auto"
+    }]
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  }
+}
