@@ -1,0 +1,7 @@
+{
+  "name": "jarret",
+  "source": "https://github.com/marcelherd/Jarret.git",
+  "target": "/opt/jarret",
+  "builds": [
+  ]
+}

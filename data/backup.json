@@ -1,0 +1,15 @@
+{
+  "name": "test",
+  "source": "E:\\Workspaces\\NodeJS\\BareRepositories\\test.git",
+  "target": "E:\\Deployed\\test",
+  "builds": [
+    {
+      "started_at": "2021-05-29T13:11:41.202Z",
+      "finished_at": "2021-05-29T13:11:42.416Z",
+      "result": "Success",
+      "version": "master-1",
+      "branch": "master",
+      "commit": "c3b58b401756f6920b107ed141c3071a1a14ac9a"
+    }
+  ]
+}
