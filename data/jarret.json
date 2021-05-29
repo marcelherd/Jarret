@@ -1,7 +1,114 @@
 {
   "name": "jarret",
   "source": "https://github.com/marcelherd/Jarret.git",
-  "target": "/opt/jarret",
+  "commands": [
+    "npm install",
+    "rm -Rf .git",
+    "cp -R . /opt/jarret"
+  ],
   "builds": [
+    {
+      "started_at": "2021-05-29T22:23:46.946Z",
+      "finished_at": "2021-05-29T22:23:54.078Z",
+      "result": "Success",
+      "version": "master-14",
+      "branch": "master",
+      "commit": "a8a02db60f5602fa27e29256c3464a2b7c1b5352"
+    },
+    {
+      "started_at": "2021-05-29T22:20:48.556Z",
+      "finished_at": "2021-05-29T22:20:55.453Z",
+      "result": "Success",
+      "version": "master-13",
+      "branch": "master",
+      "commit": "a8a02db60f5602fa27e29256c3464a2b7c1b5352"
+    },
+    {
+      "started_at": "2021-05-29T22:19:32.557Z",
+      "finished_at": "2021-05-29T22:19:39.040Z",
+      "result": "Success",
+      "version": "master-12",
+      "branch": "master",
+      "commit": "a8a02db60f5602fa27e29256c3464a2b7c1b5352"
+    },
+    {
+      "started_at": "2021-05-29T22:18:29.173Z",
+      "finished_at": "2021-05-29T22:18:37.132Z",
+      "result": "Success",
+      "version": "master-11",
+      "branch": "master",
+      "commit": "a8a02db60f5602fa27e29256c3464a2b7c1b5352"
+    },
+    {
+      "started_at": "2021-05-29T22:17:18.570Z",
+      "finished_at": "2021-05-29T22:17:25.119Z",
+      "result": "Success",
+      "version": "master-10",
+      "branch": "master",
+      "commit": "a8a02db60f5602fa27e29256c3464a2b7c1b5352"
+    },
+    {
+      "started_at": "2021-05-29T22:10:03.425Z",
+      "finished_at": "2021-05-29T22:10:10.852Z",
+      "result": "Success",
+      "version": "master-9",
+      "branch": "master"
+    },
+    {
+      "started_at": "2021-05-29T22:09:41.356Z",
+      "finished_at": "2021-05-29T22:09:48.260Z",
+      "result": "Success",
+      "version": "master-8",
+      "branch": "master"
+    },
+    {
+      "started_at": "2021-05-29T22:06:26.357Z",
+      "finished_at": "2021-05-29T22:06:33.730Z",
+      "result": "Success",
+      "version": "master-7",
+      "branch": "master"
+    },
+    {
+      "started_at": "2021-05-29T22:03:42.081Z",
+      "finished_at": "2021-05-29T22:03:49.102Z",
+      "result": "Success",
+      "version": "master-6",
+      "branch": "master"
+    },
+    {
+      "started_at": "2021-05-29T22:02:41.047Z",
+      "finished_at": "2021-05-29T22:02:49.223Z",
+      "result": "Success",
+      "version": "master-5",
+      "branch": "master"
+    },
+    {
+      "started_at": "2021-05-29T22:02:13.418Z",
+      "finished_at": "2021-05-29T22:02:19.550Z",
+      "result": "Success",
+      "version": "master-4",
+      "branch": "master"
+    },
+    {
+      "started_at": "2021-05-29T22:01:58.697Z",
+      "finished_at": "2021-05-29T22:02:04.753Z",
+      "result": "Success",
+      "version": "master-3",
+      "branch": "master"
+    },
+    {
+      "started_at": "2021-05-29T22:00:45.519Z",
+      "finished_at": "2021-05-29T22:00:52.495Z",
+      "result": "Success",
+      "version": "master-2",
+      "branch": "master"
+    },
+    {
+      "started_at": "2021-05-29T21:59:26.832Z",
+      "finished_at": "2021-05-29T21:59:33.846Z",
+      "result": "Success",
+      "version": "master-1",
+      "branch": "master"
+    }
   ]
 }
