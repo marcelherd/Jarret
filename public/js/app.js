@@ -108,10 +108,28 @@
     const onChangeType = (e) => {
         if (selectType.value === 'New Release') {
             elSelectBranchLabel.textContent = 'Branch';
-            // TODO
+            elSelectBranch.innerHTML = '';
+
+            for (const branch of selectedRepository.branches) {
+                const elOption = document.createElement('option');
+                elOption.value = branch;
+                elOption.innerText = branch;
+                elSelectBranch.appendChild(elOption);
+            }
         } else {
             elSelectBranchLabel.textContent = 'Release';
-            // TODO
+            elSelectBranch.innerHTML = '';
+
+            const releases = new Set();
+            for (const build of selectedRepository.builds) {
+                releases.add(build.version);
+            }
+            for (const release of releases) {
+                const elOption = document.createElement('option');
+                elOption.value = release;
+                elOption.innerText = release;
+                elSelectBranch.appendChild(elOption);
+            }
         }
     };
 
@@ -123,7 +141,19 @@
         elSpinnerHistory.classList.remove('d-none');
         elTblHistory.classList.add('d-none');
 
-        let branch = elSelectBranch.value;
+        let branch;
+        let commit;
+        let release;
+
+        if (elSelectType.value === 'New Release') {
+            branch = elSelectBranch.value;
+        } else {
+            release = elSelectBranch.value;
+            const build = selectedRepository.builds.filter(b => b.version === release)[0];
+            branch = build.branch;
+            commit = build.commit;
+        }
+
         if (branch.startsWith('origin')) branch = branch.replace('origin/', '');
 
         const response = await fetch(`//localhost:3000/api/v1/repository/${selectedRepository.name}/deploy`, {
@@ -136,6 +166,8 @@
             },
             body: JSON.stringify({
                 branch,
+                ...(commit && { commit }),
+                ...(release && { release }),
             }),
         })
         .then(res => res.json())

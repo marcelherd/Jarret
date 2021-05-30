@@ -84,14 +84,16 @@ app.get('/api/v1/repository/:name', async (req, res) => {
 
 app.post('/api/v1/repository/:name/deploy', async (req, res) => {
   const name = req.params.name;
-  let { branch, commit } = req.body; // TODO: this is unsafe
+  let { branch, commit, release } = req.body; // TODO: this is unsafe
   const startedAt = new Date().toISOString();
 
   if (!branch) res.send(400);
 
   const repository = await getRepository(name);
   let buildNumber = repository.builds.filter((b) => b.branch === branch).length + 1;
-  if (commit) {
+  if (release) {
+    buildNumber = release.split('-')[1];
+  } else if (commit) {
     // I know that this entire project is a goddamn mess but this is on another level
     // TODO cleanup code
     buildNumber = repository.builds.filter((b) => b.commit === commit)[0].version.split('-')[1];
