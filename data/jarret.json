@@ -7,6 +7,30 @@
   ],
   "builds": [
     {
+      "started_at": "2021-05-30T17:05:27.845Z",
+      "finished_at": "2021-05-30T17:05:29.113Z",
+      "result": "Success",
+      "version": "master-39",
+      "branch": "master",
+      "commit": "5e9c883b480dbfba2b4827329fea13b5bce6d264"
+    },
+    {
+      "started_at": "2021-05-30T17:05:18.866Z",
+      "finished_at": "2021-05-30T17:05:20.077Z",
+      "result": "Success",
+      "version": "feature/alert-12",
+      "branch": "feature/alert",
+      "commit": "4a0c7d083a93ecbe6bbdc33846031abbd1dc2e24"
+    },
+    {
+      "started_at": "2021-05-30T17:05:10.422Z",
+      "finished_at": "2021-05-30T17:05:11.751Z",
+      "result": "Success",
+      "version": "master-63",
+      "branch": "master",
+      "commit": "8f70b949cca79193d8a30db34c2eca831db3ed5e"
+    },
+    {
       "started_at": "2021-05-30T16:54:39.473Z",
       "finished_at": "2021-05-30T16:54:40.646Z",
       "result": "Success",

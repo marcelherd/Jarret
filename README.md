@@ -2,6 +2,10 @@
 
 Jarret is a simple provisioning server.
 
+## Demo
+
+![Demo](https://github.com/marcelherd/jarret/raw/master/docs/demo.gif)
+
 ## Prerequisites
 
 - Node.js
