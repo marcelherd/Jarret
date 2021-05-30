@@ -12,6 +12,7 @@
     const elSelectBranchLabel = document.querySelector('#selectBranchLabel');
     const elDeploymentAlert = document.querySelector('#deploymentAlert');
     const elDeploymentAlertText = document.querySelector('#deploymentAlertText');
+    const elBtnCloseAlert = document.querySelector('#btnCloseAlert');
 
     const rollbackTo = async (build) => {
         elBtnRunDeployment.classList.add('disabled');
@@ -220,4 +221,6 @@
 
     elSelectType.addEventListener('change', onChangeType);
     elSelectType.disabled = false;
+
+    elBtnCloseAlert.addEventListener('click', (e) => elDeploymentAlert.classList.add('d-none'));
 })();
