@@ -90,7 +90,12 @@ app.post('/api/v1/repository/:name/deploy', async (req, res) => {
   if (!branch) res.send(400);
 
   const repository = await getRepository(name);
-  const buildNumber = repository.builds.filter((b) => b.branch === branch).length + 1;
+  let buildNumber = repository.builds.filter((b) => b.branch === branch).length + 1;
+  if (commit) {
+    // I know that this entire project is a goddamn mess but this is on another level
+    // TODO cleanup code
+    buildNumber = repository.builds.filter((b) => b.commit === commit)[0].version.split('-')[1];
+  }
   const buildFolder = '/tmp/jarret/work';
   let currentWorkingDirectory = `${buildFolder}/${branch.replace('/', '_')}-${buildNumber}_${Math.random().toString(36).substring(5)}`;
 

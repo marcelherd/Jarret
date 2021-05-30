@@ -7,6 +7,62 @@
   ],
   "builds": [
     {
+      "started_at": "2021-05-30T16:25:47.960Z",
+      "finished_at": "2021-05-30T16:25:49.116Z",
+      "result": "Success",
+      "version": "feature/alert-10",
+      "branch": "feature/alert",
+      "commit": "4a0c7d083a93ecbe6bbdc33846031abbd1dc2e24"
+    },
+    {
+      "started_at": "2021-05-30T16:25:37.187Z",
+      "finished_at": "2021-05-30T16:25:38.328Z",
+      "result": "Success",
+      "version": "master-54",
+      "branch": "master",
+      "commit": "a8a02db60f5602fa27e29256c3464a2b7c1b5352"
+    },
+    {
+      "started_at": "2021-05-30T16:25:17.213Z",
+      "finished_at": "2021-05-30T16:25:18.390Z",
+      "result": "Success",
+      "version": "master-55",
+      "branch": "master",
+      "commit": "1d938ab6f2605c03a6b08c054c12905313e29250"
+    },
+    {
+      "started_at": "2021-05-30T16:23:02.576Z",
+      "finished_at": "2021-05-30T16:23:03.931Z",
+      "result": "Success",
+      "version": "master-54",
+      "branch": "master",
+      "commit": "a8a02db60f5602fa27e29256c3464a2b7c1b5352"
+    },
+    {
+      "started_at": "2021-05-30T16:22:45.401Z",
+      "finished_at": "2021-05-30T16:22:46.589Z",
+      "result": "Success",
+      "version": "feature/alert-10",
+      "branch": "feature/alert",
+      "commit": "4a0c7d083a93ecbe6bbdc33846031abbd1dc2e24"
+    },
+    {
+      "started_at": "2021-05-30T16:22:07.801Z",
+      "finished_at": "2021-05-30T16:22:08.968Z",
+      "result": "Success",
+      "version": "master-53",
+      "branch": "master",
+      "commit": "1d938ab6f2605c03a6b08c054c12905313e29250"
+    },
+    {
+      "started_at": "2021-05-30T16:21:57.358Z",
+      "finished_at": "2021-05-30T16:21:58.852Z",
+      "result": "Success",
+      "version": "master-52",
+      "branch": "master",
+      "commit": "ff5ae5d69cd37265c69ec768999a3ab9ecfc32a3"
+    },
+    {
       "started_at": "2021-05-30T15:10:33.412Z",
       "finished_at": "2021-05-30T15:10:35.225Z",
       "result": "Success",

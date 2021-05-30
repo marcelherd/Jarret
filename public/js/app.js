@@ -7,9 +7,47 @@
 
     const elTblHistory = document.querySelector('#tblHistory');
     const elSpinnerHistory = document.querySelector('#spinnerHistory');
+    const elSelectType = document.querySelector('#selectType');
     const elSelectBranch = document.querySelector('#selectBranch');
+    const elSelectBranchLabel = document.querySelector('#selectBranchLabel');
     const elDeploymentAlert = document.querySelector('#deploymentAlert');
     const elDeploymentAlertText = document.querySelector('#deploymentAlertText');
+
+    const rollbackTo = async (build) => {
+        elBtnRunDeployment.classList.add('disabled');
+        elBtnRunDeployment.removeEventListener('click', onClickRunDeployment);
+        elBtnRunDeployment.textContent = 'Deployment in progress';
+
+        elSpinnerHistory.classList.remove('d-none');
+        elTblHistory.classList.add('d-none');
+
+        const response = await fetch(`//localhost:3000/api/v1/repository/${selectedRepository.name}/deploy`, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                branch: build.branch,
+                commit: build.commit,
+            }),
+        })
+        .then(res => res.json())
+        .then(data => {
+            elBtnRunDeployment.innerHTML = 'Run Deployment';
+            elBtnRunDeployment.classList.remove('disabled');
+            elBtnRunDeployment.addEventListener('click', onClickRunDeployment);
+            
+            selectedRepository = data.repository;
+            updateHistory();
+
+            const version = selectedRepository.builds[0].version;
+            elDeploymentAlertText.innerHTML = `Successfully deployed release <a class="alert-link">${version}</a>.`;
+            elDeploymentAlert.classList.remove('d-none');
+        });
+    };
 
     const updateHistory = () => {
         const elTableBody = document.querySelector('#tblHistoryBody');
@@ -46,10 +84,16 @@
             elRow.appendChild(elFinishedAt);
 
             const elActions = document.createElement('td');
-            if (firstBuild) 
+            if (firstBuild) {
                 elActions.textContent = 'Current Version';
-            else
-                elActions.innerHTML = '<button class="btn btn-danger btn-block m-0" type="button">Rollback</button>';
+            } else {
+                const elBtnRollback = document.createElement('button');
+                elBtnRollback.type = 'button';
+                elBtnRollback.classList.add('btn', 'btn-danger', 'btn-block', 'm-0');
+                elBtnRollback.textContent = 'Rollback';
+                elBtnRollback.addEventListener('click', async (e) => await rollbackTo(build));
+                elActions.appendChild(elBtnRollback);
+            }
             elRow.appendChild(elActions);
 
             elTableBody.appendChild(elRow);
@@ -59,6 +103,16 @@
 
         elTblHistory.classList.remove('d-none');
         elSpinnerHistory.classList.add('d-none');
+    };
+
+    const onChangeType = (e) => {
+        if (selectType.value === 'New Release') {
+            elSelectBranchLabel.textContent = 'Branch';
+            // TODO
+        } else {
+            elSelectBranchLabel.textContent = 'Release';
+            // TODO
+        }
     };
 
     const onClickRunDeployment = async (e) => {
@@ -131,4 +185,7 @@
     elBtnRunDeployment.addEventListener('click', onClickRunDeployment);
 
     updateHistory();
+
+    elSelectType.addEventListener('change', onChangeType);
+    elSelectType.disabled = false;
 })();
