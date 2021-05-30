@@ -1,12 +1,93 @@
 {
   "name": "jarret",
   "source": "https://github.com/marcelherd/Jarret.git",
+  "preserveWorkDir": true,
   "commands": [
     "npm install",
     "rm -Rf .git",
     "cp -R . /opt/jarret"
   ],
   "builds": [
+    {
+      "started_at": "2021-05-30T13:15:22.463Z",
+      "finished_at": "2021-05-30T13:15:29.691Z",
+      "result": "Success",
+      "version": "master-29",
+      "branch": "master",
+      "commit": "514bfa2a6cbadd09d6e90a4e05a3c9b4caab6ba7"
+    },
+    {
+      "started_at": "2021-05-30T13:14:10.637Z",
+      "finished_at": "2021-05-30T13:14:17.884Z",
+      "result": "Success",
+      "version": "master-28",
+      "branch": "master",
+      "commit": "514bfa2a6cbadd09d6e90a4e05a3c9b4caab6ba7"
+    },
+    {
+      "started_at": "2021-05-30T13:14:02.412Z",
+      "finished_at": "2021-05-30T13:14:09.795Z",
+      "result": "Success",
+      "version": "master-27",
+      "branch": "master",
+      "commit": "514bfa2a6cbadd09d6e90a4e05a3c9b4caab6ba7"
+    },
+    {
+      "started_at": "2021-05-30T13:13:40.334Z",
+      "finished_at": "2021-05-30T13:13:48.787Z",
+      "result": "Success",
+      "version": "master-26",
+      "branch": "master",
+      "commit": "514bfa2a6cbadd09d6e90a4e05a3c9b4caab6ba7"
+    },
+    {
+      "started_at": "2021-05-30T13:13:32.790Z",
+      "finished_at": "2021-05-30T13:13:40.023Z",
+      "result": "Success",
+      "version": "master-25",
+      "branch": "master",
+      "commit": "514bfa2a6cbadd09d6e90a4e05a3c9b4caab6ba7"
+    },
+    {
+      "started_at": "2021-05-30T13:12:08.629Z",
+      "finished_at": "2021-05-30T13:12:15.842Z",
+      "result": "Success",
+      "version": "master-24",
+      "branch": "master",
+      "commit": "514bfa2a6cbadd09d6e90a4e05a3c9b4caab6ba7"
+    },
+    {
+      "started_at": "2021-05-30T13:11:24.681Z",
+      "finished_at": "2021-05-30T13:11:32.170Z",
+      "result": "Success",
+      "version": "master-23",
+      "branch": "master",
+      "commit": "514bfa2a6cbadd09d6e90a4e05a3c9b4caab6ba7"
+    },
+    {
+      "started_at": "2021-05-30T13:10:15.706Z",
+      "finished_at": "2021-05-30T13:10:23.026Z",
+      "result": "Success",
+      "version": "master-22",
+      "branch": "master",
+      "commit": "514bfa2a6cbadd09d6e90a4e05a3c9b4caab6ba7"
+    },
+    {
+      "started_at": "2021-05-30T13:07:25.921Z",
+      "finished_at": "2021-05-30T13:07:32.694Z",
+      "result": "Success",
+      "version": "master-21",
+      "branch": "master",
+      "commit": "514bfa2a6cbadd09d6e90a4e05a3c9b4caab6ba7"
+    },
+    {
+      "started_at": "2021-05-30T13:06:02.546Z",
+      "finished_at": "2021-05-30T13:06:09.684Z",
+      "result": "Success",
+      "version": "master-20",
+      "branch": "master",
+      "commit": "514bfa2a6cbadd09d6e90a4e05a3c9b4caab6ba7"
+    },
     {
       "started_at": "2021-05-29T22:38:45.190Z",
       "finished_at": "2021-05-29T22:38:54.460Z",
@@ -150,5 +231,8 @@
       "version": "master-1",
       "branch": "master"
     }
+  ],
+  "branches": [
+    "origin/master"
   ]
 }

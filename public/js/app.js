@@ -2,6 +2,34 @@
     let repositories;
     let selectedRepository;
 
+    const elBtnRunDeployment = document.querySelector('#btnRunDeployment');
+    elBtnRunDeployment.addEventListener('click', (e) => e.preventDefault());
+
+    const onClickRunDeployment = async (e) => {
+        elBtnRunDeployment.classList.add('disabled');
+        elBtnRunDeployment.removeEventListener('click', onClickRunDeployment);
+        elBtnRunDeployment.innerHTML = '<div class="spinner-border spinner-border-sm"/>';
+
+        const response = await fetch(`//localhost:3000/api/v1/repository/${selectedRepository.name}/deploy`, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                branch: 'master',
+            }),
+        })
+        .then(res => res.json())
+        .then(data => {
+            elBtnRunDeployment.innerHTML = 'Run Deployment';
+            elBtnRunDeployment.classList.remove('disabled');
+            elBtnRunDeployment.addEventListener('click', onClickRunDeployment);
+        });
+    };
+
     await fetch('//localhost:3000/api/v1/repository')
         .then(res => res.json())
         .then(data => {
@@ -32,6 +60,6 @@
             }
         });
 
-    const elBtnRunDeployment = document.querySelector('#btnRunDeployment');
     elBtnRunDeployment.classList.remove('disabled');
+    elBtnRunDeployment.addEventListener('click', onClickRunDeployment);
 })();

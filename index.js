@@ -142,7 +142,10 @@ app.post('/api/v1/repository/:name/deploy', async (req, res) => {
 
   await updateRepository(repository);
 
-  res.send('Deployment Finished');
+  res.send({
+    status: 'Success',
+    repository,
+  });
 });
 
 app.listen(3000, () => {
