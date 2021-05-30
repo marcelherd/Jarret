@@ -16,6 +16,10 @@ app.use(morgan());
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.set('view engine', 'pug');
+app.locals.version = process.env.npm_package_version;
 
 const getRepository = async (name) => {
   const bufRepository = await fs.readFile(`data/${name}.json`);
@@ -28,7 +32,7 @@ const updateRepository = async (repository) => {
 };
 
 app.get('/', (req, res) => {
-  res.send('Hello World');
+  res.render('index');
 });
 
 app.get('/api/v1/repository', async (req, res) => {
@@ -112,7 +116,7 @@ app.post('/api/v1/repository/:name/deploy', async (req, res) => {
 
   await updateRepository(repository);
 
-  res.send(200);
+  res.send('Deployment Finished');
 });
 
 app.listen(3000, () => {
