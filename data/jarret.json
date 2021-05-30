@@ -1,13 +1,44 @@
 {
   "name": "jarret",
   "source": "https://github.com/marcelherd/Jarret.git",
-  "preserveWorkDir": true,
   "commands": [
     "npm install",
     "rm -Rf .git",
     "cp -R . /opt/jarret"
   ],
   "builds": [
+    {
+      "started_at": "2021-05-30T13:44:40.134Z",
+      "finished_at": "2021-05-30T13:44:48.455Z",
+      "result": "Success",
+      "version": "master-33",
+      "branch": "master",
+      "commit": "61e97beba5f6f3d2f6ab00ac9acd55ebe825614c"
+    },
+    {
+      "started_at": "2021-05-30T13:42:55.647Z",
+      "finished_at": "2021-05-30T13:43:03.771Z",
+      "result": "Success",
+      "version": "master-32",
+      "branch": "master",
+      "commit": "61e97beba5f6f3d2f6ab00ac9acd55ebe825614c"
+    },
+    {
+      "started_at": "2021-05-30T13:40:47.686Z",
+      "finished_at": "2021-05-30T13:40:55.455Z",
+      "result": "Success",
+      "version": "master-31",
+      "branch": "master",
+      "commit": "61e97beba5f6f3d2f6ab00ac9acd55ebe825614c"
+    },
+    {
+      "started_at": "2021-05-30T13:40:14.690Z",
+      "finished_at": "2021-05-30T13:40:22.446Z",
+      "result": "Success",
+      "version": "master-30",
+      "branch": "master",
+      "commit": "61e97beba5f6f3d2f6ab00ac9acd55ebe825614c"
+    },
     {
       "started_at": "2021-05-30T13:15:22.463Z",
       "finished_at": "2021-05-30T13:15:29.691Z",
