@@ -13,7 +13,14 @@ const bodyParser = require('body-parser');
 const app = express();
 
 app.use(morgan());
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    useDefaults: true,
+    directives: {
+      scriptSrc: ["'self'", "cdn.jsdelivr.net"],
+    }
+  }
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
