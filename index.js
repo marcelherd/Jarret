@@ -29,7 +29,7 @@ app.set('view engine', 'pug');
 app.locals.version = process.env.npm_package_version;
 
 const getBranches = async (repository) => {
-  const buildFolder = './work';
+  const buildFolder = '/tmp/jarret/work';
   let currentWorkingDirectory = `${buildFolder}/${repository.name}-meta_${Math.random().toString(36).substring(5)}`;
 
   await fs.access(buildFolder).catch(async (e) => {
@@ -41,6 +41,7 @@ const getBranches = async (repository) => {
   let { stdout, stderr } = await exec(`git clone ${repository.source} ${repository.name}`, {
     cwd: currentWorkingDirectory,
   });
+  currentWorkingDirectory += `/${repository.name}`;
 
   ({ stdout, stderr } = await exec('git branch -a', {
     cwd: currentWorkingDirectory,
@@ -90,8 +91,8 @@ app.post('/api/v1/repository/:name/deploy', async (req, res) => {
 
   const repository = await getRepository(name);
   const buildNumber = repository.builds.filter((b) => b.branch === branch).length + 1;
-  const buildFolder = './work';
-  let currentWorkingDirectory = `${buildFolder}/${branch}-${buildNumber}_${Math.random().toString(36).substring(5)}`;
+  const buildFolder = '/tmp/jarret/work';
+  let currentWorkingDirectory = `${buildFolder}/${branch.replace('/', '_')}-${buildNumber}_${Math.random().toString(36).substring(5)}`;
 
   await fs.access(buildFolder).catch(async (e) => {
     if (e.code === 'ENOENT') return await fs.mkdir(buildFolder);
@@ -113,19 +114,19 @@ app.post('/api/v1/repository/:name/deploy', async (req, res) => {
   }));
   console.log(stdout);
 
+  if (!commit) {
+    ({ stdout, stderr } = await exec('git rev-parse HEAD', {
+      cwd: currentWorkingDirectory,
+    }));
+    commit = stdout.trim();
+  }
+
   for (const cmd of repository.commands) {
     ({ stdout, stderr } = await exec(cmd, {
       cwd: currentWorkingDirectory,
     }));
     console.log(stdout);
     console.error(stderr);
-  }
-
-  if (!commit) {
-    ({ stdout, stderr } = await exec('git rev-parse HEAD', {
-      cwd: currentWorkingDirectory,
-    }));
-    commit = stdout.trim();
   }
 
   if (!repository.preserveWorkDir) {

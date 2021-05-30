@@ -7,6 +7,7 @@
 
     const elTblHistory = document.querySelector('#tblHistory');
     const elSpinnerHistory = document.querySelector('#spinnerHistory');
+    const elSelectBranch = document.querySelector('#selectBranch');
 
     const updateHistory = () => {
         const elTableBody = document.querySelector('#tblHistoryBody');
@@ -66,6 +67,9 @@
         elSpinnerHistory.classList.remove('d-none');
         elTblHistory.classList.add('d-none');
 
+        let branch = elSelectBranch.value;
+        if (branch.startsWith('origin')) branch = branch.replace('origin/', '');
+
         const response = await fetch(`//localhost:3000/api/v1/repository/${selectedRepository.name}/deploy`, {
             method: 'POST',
             mode: 'cors',
@@ -75,7 +79,7 @@
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                branch: 'master',
+                branch,
             }),
         })
         .then(res => res.json())
@@ -108,8 +112,6 @@
         .then(res => res.json())
         .then(data => {
             selectedRepository = data;
-
-            const elSelectBranch = document.querySelector('#selectBranch');
 
             for (const branch of data.branches) {
                 const elOption = document.createElement('option');
