@@ -14,7 +14,7 @@ html
     div.jumbotron.jumbotron-fluid
         div.container
             h1.display-4 Jarret
-            p.lead Welcome to Jarret.
+            p.lead Welcome to Jarret, your simple provisioning server.
     .container
         h3.mb-4 Create New Deployment
         div.alert.alert-success.alert-dismissible.fade.show.d-none#deploymentAlert(role="alert")
@@ -51,5 +51,6 @@ html
           tbody#tblHistoryBody
     footer.footer
         div.container
-            span.text-muted Running on Jarret v#{version}
+          span.text-muted.float-left Copyright &copy; 2021 Marcel Herd
+          span.text-muted.float-right Jarret v#{version}
     script(src="/js/app.js")
