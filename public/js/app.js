@@ -5,8 +5,11 @@
     const elBtnRunDeployment = document.querySelector('#btnRunDeployment');
     elBtnRunDeployment.addEventListener('click', (e) => e.preventDefault());
 
+    const elTblHistory = document.querySelector('#tblHistory');
+    const elSpinnerHistory = document.querySelector('#spinnerHistory');
+
     const updateHistory = () => {
-        const elTableBody = document.querySelector('#tblHistory');
+        const elTableBody = document.querySelector('#tblHistoryBody');
         elTableBody.innerHTML = '';
 
         let firstBuild = true;
@@ -50,12 +53,18 @@
 
             firstBuild = false;
         }
+
+        elTblHistory.classList.remove('d-none');
+        elSpinnerHistory.classList.add('d-none');
     };
 
     const onClickRunDeployment = async (e) => {
         elBtnRunDeployment.classList.add('disabled');
         elBtnRunDeployment.removeEventListener('click', onClickRunDeployment);
-        elBtnRunDeployment.innerHTML = '<div class="spinner-border spinner-border-sm"/>';
+        elBtnRunDeployment.textContent = 'Deployment in progress';
+
+        elSpinnerHistory.classList.remove('d-none');
+        elTblHistory.classList.add('d-none');
 
         const response = await fetch(`//localhost:3000/api/v1/repository/${selectedRepository.name}/deploy`, {
             method: 'POST',
