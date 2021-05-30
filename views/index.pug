@@ -27,16 +27,11 @@ html
             label.col-sm-2.col-form-label(for="selectRepository") Repository
             div.col-sm-3
               select.form-control#selectRepository
-                option Jarret
           div.form-group.row
             label.col-sm-2.col-form-label(for="selectBranch") Branch
             div.col-sm-3
               select.form-control#selectBranch
-                option master
-                option develop
-                option feature/login
-                option hotfix/issue-231
-          button.btn.btn-primary(type="submit") Run Deployment
+          button.btn.btn-primary.disabled#btnRunDeployment(type="submit") Run Deployment
         h3.mb-4.mt-5 Deployment History
         table.table.table-bordered.table-hover
           thead
@@ -67,3 +62,4 @@ html
     footer.footer
         div.container
             span.text-muted Running on Jarret v#{version}
+    script(src="/js/app.js")

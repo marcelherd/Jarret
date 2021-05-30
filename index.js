@@ -21,9 +21,35 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug');
 app.locals.version = process.env.npm_package_version;
 
+const getBranches = async (repository) => {
+  const buildFolder = './work';
+  let currentWorkingDirectory = `${buildFolder}/${repository.name}-meta_${Math.random().toString(36).substring(5)}`;
+
+  await fs.access(buildFolder).catch(async (e) => {
+    if (e.code === 'ENOENT') return await fs.mkdir(buildFolder);
+  });
+
+  await fs.mkdir(currentWorkingDirectory);
+
+  let { stdout, stderr } = await exec(`git clone ${repository.source} ${repository.name}`, {
+    cwd: currentWorkingDirectory,
+  });
+
+  ({ stdout, stderr } = await exec('git branch -a', {
+    cwd: currentWorkingDirectory,
+  }));
+  
+  return stdout
+    .split('\n')
+    .filter(line => line.includes('remotes') && !line.includes('HEAD'))
+    .map(line => line.trim())
+    .map(line => line.replace('remotes/', ''));
+};
+
 const getRepository = async (name) => {
   const bufRepository = await fs.readFile(`data/${name}.json`);
   const repository = JSON.parse(bufRepository);
+  repository.branches = await getBranches(repository);
   return repository;
 };
 
