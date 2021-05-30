@@ -8,6 +8,8 @@
     const elTblHistory = document.querySelector('#tblHistory');
     const elSpinnerHistory = document.querySelector('#spinnerHistory');
     const elSelectBranch = document.querySelector('#selectBranch');
+    const elDeploymentAlert = document.querySelector('#deploymentAlert');
+    const elDeploymentAlertText = document.querySelector('#deploymentAlertText');
 
     const updateHistory = () => {
         const elTableBody = document.querySelector('#tblHistoryBody');
@@ -90,6 +92,10 @@
             
             selectedRepository = data.repository;
             updateHistory();
+
+            const version = selectedRepository.builds[0].version;
+            elDeploymentAlertText.innerHTML = `Successfully deployed release <a class="alert-link">${version}</a>.`;
+            elDeploymentAlert.classList.remove('d-none');
         });
     };
 

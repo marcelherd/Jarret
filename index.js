@@ -84,7 +84,7 @@ app.get('/api/v1/repository/:name', async (req, res) => {
 
 app.post('/api/v1/repository/:name/deploy', async (req, res) => {
   const name = req.params.name;
-  let { branch, commit } = req.body;
+  let { branch, commit } = req.body; // TODO: this is unsafe
   const startedAt = new Date().toISOString();
 
   if (!branch) res.send(400);
