@@ -7,6 +7,14 @@
   ],
   "builds": [
     {
+      "started_at": "2021-06-03T18:00:05.571Z",
+      "finished_at": "2021-06-03T18:00:13.435Z",
+      "result": "Success",
+      "version": "feature/alert-1",
+      "branch": "feature/alert",
+      "commit": "4a0c7d083a93ecbe6bbdc33846031abbd1dc2e24"
+    },
+    {
       "started_at": "2021-06-03T15:10:25.244Z",
       "finished_at": "2021-06-03T15:10:31.710Z",
       "result": "Success",
