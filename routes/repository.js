@@ -5,7 +5,6 @@ const repositoryController = require('../controllers/RepositoryController');
 const router = express.Router();
 
 router.route('/').get(repositoryController.getRepositories);
-router.route('/:name').get(repositoryController.getRepository);
-router.route('/:name/deploy').post(repositoryController.deploy);
+router.route('/:id').get(repositoryController.getRepository);
 
 module.exports = router;

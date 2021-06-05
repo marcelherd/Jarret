@@ -9,7 +9,7 @@ const frontendRoutes = require('../routes/frontend');
 
 module.exports = function (app) {
   // Frontend configuration
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname, '../public')));
   app.set('view engine', 'pug');
 
   // Application variables

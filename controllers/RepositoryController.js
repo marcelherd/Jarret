@@ -6,27 +6,12 @@ function getRepositories(req, res) {
 }
 
 function getRepository(req, res) {
-  const name = req.params.name;
-  const repository = repositoryService.getRepository(name);
+  const { id } = req.params;
+  const repository = repositoryService.getRepository(id);
   return res.json(repository);
-}
-
-function deploy(req, res) {
-  const name = req.params.name;
-  let { branch, commit, release } = req.body; // TODO: this is unsafe
-
-  if (!branch) res.send(400);
-
-  const repository = repositoryService.deploy(name, branch, commit, release);
-
-  return res.send({
-    status: 'Success',
-    repository,
-  });
 }
 
 module.exports = {
   getRepositories,
   getRepository,
-  deploy,
 };
