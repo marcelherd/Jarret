@@ -1,5 +1,6 @@
 # Jarret
 work
+*.sqlite3
 
 # Logs
 logs

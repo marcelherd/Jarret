@@ -19,7 +19,7 @@ function deploy(req, res) {
 
   const repository = repositoryService.deploy(name, branch, commit, release);
 
-  res.send({
+  return res.send({
     status: 'Success',
     repository,
   });

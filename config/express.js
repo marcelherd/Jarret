@@ -4,8 +4,8 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
-const repositoryRoutes = require('./routes/repository');
-const frontendRoutes = require('./routes/frontend');
+const repositoryRoutes = require('../routes/repository');
+const frontendRoutes = require('../routes/frontend');
 
 module.exports = function (app) {
   // Frontend configuration
