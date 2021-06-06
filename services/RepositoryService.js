@@ -38,10 +38,11 @@ async function getRelease(repositoryId, releaseId) {
 
 async function createRelease(repositoryId, branch) {
   const repository = await Repository.query().findById(repositoryId);
+  const branchData = await gitService.getBranchData(repository);
+
   const queryResult = await Release.query().where({ repositoryId, branch }).count('id as releases');
   const counter = queryResult[0].releases + 1;
   const name = `${branch}-${counter}`;
-  const branchData = await gitService.getBranchData(repository);
   const commit = branchData.find((branchData) => branchData.branch === branch).commit;
 
   const release = {
