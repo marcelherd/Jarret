@@ -7,6 +7,7 @@ const Repository = require('../models/repository');
 
 async function updateUserConfiguration() {
   const configurations = await getConfigurations();
+  // TODO: Validate configurations
 
   // TODO: You can't actually delete (or rename) repositories
   const queries = [];

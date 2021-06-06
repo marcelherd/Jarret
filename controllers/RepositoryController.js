@@ -1,5 +1,7 @@
 const repositoryService = require('../services/RepositoryService');
 
+// TODO: Validations, error-handling, status codes
+
 async function getRepositories(req, res) {
   const repositories = await repositoryService.getRepositories();
   return res.json(repositories);

@@ -24,7 +24,7 @@ async function withTempDirectory(callback, errorCallback) {
     await createWorkDirectory();
     const directory = await tmp.dir({ prefix: '/jarret/work/task', unsafeCleanup: true });
     await callback(directory.path);
-    //await directory.cleanup();
+    await directory.cleanup();
   } catch (e) {
     errorCallback(e);
   }

@@ -18,6 +18,7 @@ async function getConfigurations() {
 }
 
 async function getConfiguration(repository) {
+  // TODO: This should really be the other way around
   const configurations = await getConfigurations();
   return configurations.find((configuration) => configuration.name === repository.name);
 }

@@ -2,6 +2,8 @@ const gitService = require('./GitService');
 
 const Repository = require('../models/repository');
 const Release = require('../models/release');
+const Task = require('../models/task');
+
 const { getConfiguration } = require('../util/userconfig');
 const { exec } = require('../util/cmd');
 
@@ -55,6 +57,8 @@ async function createRelease(repositoryId, branch) {
 }
 
 async function deploy(repositoryId, releaseId) {
+  const startTime = new Date();
+
   const release = await Release.query().findById(releaseId);
   const repository = await Repository.query().findById(repositoryId);
   const configuration = await getConfiguration(repository);
@@ -65,6 +69,16 @@ async function deploy(repositoryId, releaseId) {
       await exec(command, { cwd: path });
     }
   });
+
+  // TODO: Set result to 'failure' if it failed
+  const task = {
+    started_at: startTime,
+    finished_at: new Date(),
+    result: 'success',
+    releaseId: releaseId,
+  };
+
+  await Task.query().insert(task);
 }
 
 module.exports = {
