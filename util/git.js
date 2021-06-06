@@ -21,8 +21,8 @@ async function parseBranchData(repository) {
   return sortedData;
 }
 
-async function clone(repository, workingDirectory) {
-  const out = await exec(`git clone ${repository.uri} ${repository.name}`, {
+async function clone(uri, outputFolder, workingDirectory) {
+  const out = await exec(`git clone ${uri} ${outputFolder}`, {
     cwd: workingDirectory,
   });
 }

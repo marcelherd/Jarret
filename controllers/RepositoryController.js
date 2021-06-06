@@ -1,6 +1,6 @@
 const repositoryService = require('../services/RepositoryService');
 
-// TODO: Validations, error-handling, status codes
+// TODO: Validations, error-handling, status codes/responses
 
 async function getRepositories(req, res) {
   const repositories = await repositoryService.getRepositories();
@@ -50,6 +50,12 @@ async function deploy(req, res) {
   return res.json();
 }
 
+async function getTasks(req, res) {
+  const { repositoryId } = req.params;
+  const tasks = await repositoryService.getTasks(repositoryId);
+  return res.json(tasks);
+}
+
 module.exports = {
   getRepositories,
   getRepository,
@@ -59,4 +65,5 @@ module.exports = {
   getRelease,
   createRelease,
   deploy,
+  getTasks,
 };

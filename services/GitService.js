@@ -51,9 +51,12 @@ async function getBranchData(repository) {
 async function provideWorkingCopy(repository, release, callback) {
   await withTempDirectory(
     async (location) => {
-      await clone(repository, location);
-      await checkout(release.commit, path.join(location, repository.name));
-      await callback(path.join(location, repository.name));
+      const outputFolder = repository.name.replace(' ', '_');
+      const repositoryPath = path.join(location, outputFolder);
+
+      await clone(repository.uri, outputFolder, location);
+      await checkout(release.commit, repositoryPath);
+      await callback(repositoryPath);
     },
     (err) => console.error(err),
   );

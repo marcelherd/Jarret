@@ -63,6 +63,10 @@ async function deploy(repositoryId, releaseId) {
   const repository = await Repository.query().findById(repositoryId);
   const configuration = await getConfiguration(repository);
 
+  if (!configuration) {
+    // TODO: Fail deployment
+  }
+
   // TODO: This callback crap is really ugly, use Promise API?
   await gitService.provideWorkingCopy(repository, release, async (path) => {
     for (const command of configuration.commands) {
@@ -81,6 +85,11 @@ async function deploy(repositoryId, releaseId) {
   await Task.query().insert(task);
 }
 
+async function getTasks(repositoryId) {
+  const repository = await Repository.query().findById(repositoryId).withGraphFetched('tasks');
+  return repository.tasks;
+}
+
 module.exports = {
   getRepositories,
   getRepository,
@@ -90,4 +99,5 @@ module.exports = {
   getRelease,
   createRelease,
   deploy,
+  getTasks,
 };

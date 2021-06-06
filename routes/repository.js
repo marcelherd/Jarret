@@ -19,4 +19,6 @@ router
 router.route('/:repositoryId/releases/:releaseId').get(repositoryController.getRelease);
 router.route('/:repositoryId/releases/:releaseId/deploy').post(repositoryController.deploy);
 
+router.route('/:repositoryId/tasks').get(repositoryController.getTasks);
+
 module.exports = router;

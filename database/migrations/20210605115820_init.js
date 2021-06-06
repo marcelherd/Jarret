@@ -15,10 +15,11 @@ exports.up = function (knex) {
     })
     .createTable('release', (table) => {
       table.increments();
-      table.string('name').notNullable().unique();
+      table.string('name').notNullable();
       table.string('branch').notNullable();
       table.string('commit').notNullable();
       table.integer('repositoryId').references('id').inTable('repository');
+      table.unique(['repositoryId', 'name']);
       table.timestamps(true, true);
     })
     .createTable('task', (table) => {

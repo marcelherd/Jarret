@@ -1,5 +1,6 @@
 const { Model } = require('objection');
 const Release = require('./release');
+const Task = require('./task');
 
 class Repository extends Model {
   static get tableName() {
@@ -24,6 +25,18 @@ class Repository extends Model {
         join: {
           from: 'repository.id',
           to: 'release.repositoryId',
+        },
+      },
+      tasks: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Task,
+        join: {
+          from: 'repository.id',
+          through: {
+            from: 'release.repositoryId',
+            to: 'release.id',
+          },
+          to: 'task.releaseId',
         },
       },
     };
