@@ -12,19 +12,28 @@ Jarret is a simple provisioning server.
 
 ## Installation
 
+Install dependencies
+
 ```
 npm install
+```
+
+Set-up database schema
+
+```
+npx knex migrate:latest --knexfile database/knexfile.js
 ```
 
 ## Usage
 
 ```
-npm start
+NODE_ENV=production npm start
 ```
 
 ## Development
 
 ```
+npx knex seed:run --knexfile database/knexfile.js
 npm run dev
 ```
 

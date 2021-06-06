@@ -1,9 +1,11 @@
+global.PROJECT_DIR = require('path').resolve(__dirname);
 require('dotenv').config();
 
 const express = require('express');
 
 const app = express();
 
+// TODO: Technically a promise
 require('./config/database')();
 require('./config/express')(app);
 

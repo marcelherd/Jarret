@@ -4,7 +4,7 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: `./database/database.sqlite3`,
+      filename: `/home/wsl/LocalWorkspaces/jarret/database/database.sqlite3`,
     },
     migrations: {
       tableName: 'knex_migrations',

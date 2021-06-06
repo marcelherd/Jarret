@@ -1,0 +1,9 @@
+repository:
+  name: 'Jarret'
+  uri: 'https://github.com/marcelherd/Jarret.git'
+  commands:
+    - 'git status'
+    - 'ls -lA'
+    - 'pwd'
+    - 'echo "Just some sample commands $(date)" > OUTPUT'
+    - 'cp -R . /opt/jarret'
