@@ -51,9 +51,7 @@ async function createRelease(repositoryId, branch) {
     repositoryId,
   };
 
-  await Release.query().insert(release);
-
-  return release;
+  return await Release.query().insert(release);
 }
 
 async function deploy(repositoryId, releaseId) {
