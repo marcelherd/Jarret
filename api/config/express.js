@@ -1,8 +1,5 @@
-const path = require('path');
-
 const express = require('express');
 const morgan = require('morgan');
-const helmet = require('helmet');
 
 const repositoryRoutes = require('../routes/repository');
 
@@ -13,7 +10,10 @@ module.exports = function (app) {
 
   // Third-party middleware
   app.use(morgan());
-  app.use(helmet());
+  app.use((req, res, next) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    next();
+  });
 
   // Routes
   app.use('/api/v1/repository', repositoryRoutes);

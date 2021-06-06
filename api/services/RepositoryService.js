@@ -85,8 +85,9 @@ async function deploy(repositoryId, releaseId) {
 }
 
 async function getTasks(repositoryId) {
-  const repository = await Repository.query().findById(repositoryId).withGraphFetched('tasks');
-  return repository.tasks;
+  const tasks = await Task.query().withGraphFetched('release');
+  // TODO: Should be handled via SQL probably
+  return tasks.filter((task) => task.release.repositoryId.toString() === repositoryId);
 }
 
 module.exports = {

@@ -1,6 +1,4 @@
 const { Model } = require('objection');
-const Release = require('./release');
-const Task = require('./task');
 
 class Repository extends Model {
   static get tableName() {
@@ -9,6 +7,8 @@ class Repository extends Model {
 
   static get relationMappings() {
     const Branch = require('./branch');
+    const Release = require('./release');
+    const Task = require('./task');
 
     return {
       branches: {
