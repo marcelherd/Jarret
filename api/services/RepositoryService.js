@@ -17,7 +17,8 @@ async function getRepository(repositoryId) {
 
 async function getBranches(repositoryId) {
   const repository = await Repository.query().findById(repositoryId).withGraphFetched('branches');
-  return repository.branches;
+  const branches = repository.branches.sort((a, b) => a.id - b.id);
+  return branches;
 }
 
 async function updateBranches(repositoryId) {
