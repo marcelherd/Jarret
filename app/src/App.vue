@@ -98,7 +98,7 @@
   <footer class="footer">
     <div class="container">
       <span class="text-muted float-left">Copyright &copy; 2021 Marcel Herd</span>
-      <span class="text-muted float-right">Jarret v0.3.0</span>
+      <span class="text-muted float-right">Jarret v0.4.0</span>
     </div>
   </footer>
 </template>
