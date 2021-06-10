@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const repositoryRoutes = require('../routes/repository');
 
@@ -10,10 +11,7 @@ module.exports = function (app) {
 
   // Third-party middleware
   app.use(morgan());
-  app.use((req, res, next) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    next();
-  });
+  app.use(cors());
 
   // Routes
   app.use('/api/v1/repository', repositoryRoutes);

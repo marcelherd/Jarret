@@ -2,7 +2,7 @@
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
       <h1 class="display-4">Jarret</h1>
-      <p class="lead">Welcome to Jarret.</p>
+      <p class="lead">Welcome to Jarret, your simple software provisioning server.</p>
     </div>
   </div>
   <div class="container">
@@ -41,7 +41,11 @@
           </select>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary" :class="{ disabled: !deploymentEnabled }">Run Deployment</button>
+      <button v-if="deploymentEnabled" type="submit" class="btn btn-primary">Run Deployment</button>
+      <button v-if="!deploymentEnabled" type="button" class="btn btn-primary" disabled>
+        <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
+        Deployment in progress...
+      </button>
     </form>
     <h3 class="mb-4 mt-5">Deployment History</h3>
     <table class="table table-bordered table-hover">
@@ -65,7 +69,7 @@
           <td>{{ formatDate(t.started_at) }}</td>
           <td>{{ formatDate(t.finished_at) }}</td>
           <td>
-            <button class="btn btn-danger btn-block m-0" type="button">Rollback</button>
+            <button @click="onClickRollback(t)" class="btn btn-danger btn-block m-0" :class="{ 'disabled': !deploymentEnabled }" type="button">Rollback</button>
           </td>
         </tr>
       </tbody>
@@ -111,6 +115,21 @@ export default {
     onClickCloseFlashMessage() {
       this.flashMessage = null;
     },
+    async onClickRollback(task) {
+      if (!this.deploymentEnabled) return;
+
+      this.deploymentEnabled = false;
+
+      await RepositoryService.deploy(this.repository, task.release);
+      await this.updateHistory();
+
+      this.deploymentEnabled = true;
+
+      this.flashMessage = {
+        type: 'success',
+        content: `Successfully rolled back to ${task.release.name}.`
+      };
+    },
     onChangeType() {
       this.updateSources();
     },
@@ -118,12 +137,26 @@ export default {
       this.updateSources();
       this.updateHistory();
     },
-    onSubmitDeployment() {
+    async onSubmitDeployment() {
       if (!this.deploymentEnabled) return;
+
+      this.deploymentEnabled = false;
+
+      let releaseToDeploy = this.source;
+
+      if (this.deploymentType === 'new') {
+        const release = await RepositoryService.createRelease(this.repository, this.source);
+        releaseToDeploy = release;
+      }
+
+      await RepositoryService.deploy(this.repository, releaseToDeploy);
+      await this.updateHistory();
+
+      this.deploymentEnabled = true;
 
       this.flashMessage = {
         type: 'success',
-        content: `Successfully deployed ${this.source.name}`
+        content: `Successfully deployed ${this.source.name}.`
       };
     },
     async updateRepositories() {
