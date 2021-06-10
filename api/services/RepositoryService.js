@@ -17,7 +17,11 @@ async function getRepository(repositoryId) {
 
 async function getBranches(repositoryId) {
   const repository = await Repository.query().findById(repositoryId).withGraphFetched('branches');
-  const branches = repository.branches.sort((a, b) => a.id - b.id);
+  const branches = repository.branches.sort((a, b) => {
+    if (b.name === 'master') return 1;
+    if (a.name === 'master') return -1;
+    return b.id - a.id;
+  });
   return branches;
 }
 
@@ -28,7 +32,8 @@ async function updateBranches(repositoryId) {
 
 async function getReleases(repositoryId) {
   const repository = await Repository.query().findById(repositoryId).withGraphFetched('releases');
-  return repository.releases;
+  const releases = repository.releases.sort((a, b) => b.id - a.id);
+  return releases;
 }
 
 async function getRelease(repositoryId, releaseId) {
