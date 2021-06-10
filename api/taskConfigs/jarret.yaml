@@ -1,6 +1,13 @@
 repository:
   name: 'Jarret'
   uri: 'https://github.com/marcelherd/Jarret.git'
+  environments:
+    dev:
+      servers: '10.10.10.100'
+    qual:
+      servers: '10.10.20.100,10.10.20.101'
+    prod:
+      servers: '10.10.30.100,10.10.30.101,10.10.30.102'
   commands:
     - 'git status'
     - 'ls -lA'

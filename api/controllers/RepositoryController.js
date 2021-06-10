@@ -56,6 +56,12 @@ async function getTasks(req, res) {
   return res.json(tasks);
 }
 
+async function getEnvironments(req, res) {
+  const { repositoryId } = req.params;
+  const environments = await repositoryService.getEnvironments(repositoryId);
+  return res.json(environments);
+}
+
 module.exports = {
   getRepositories,
   getRepository,
@@ -66,4 +72,5 @@ module.exports = {
   createRelease,
   deploy,
   getTasks,
+  getEnvironments,
 };

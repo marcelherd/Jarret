@@ -90,6 +90,13 @@ async function getTasks(repositoryId) {
   return tasks.filter((task) => task.release.repositoryId.toString() === repositoryId);
 }
 
+async function getEnvironments(repositoryId) {
+  const repository = await Repository.query().findById(repositoryId);
+  const configuration = await getConfiguration(repository);
+  if (!configuration) return {};
+  return Object.keys(configuration.environments);
+}
+
 module.exports = {
   getRepositories,
   getRepository,
@@ -100,4 +107,5 @@ module.exports = {
   createRelease,
   deploy,
   getTasks,
+  getEnvironments,
 };

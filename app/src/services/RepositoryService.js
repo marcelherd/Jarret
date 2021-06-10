@@ -23,6 +23,12 @@ export default {
     );
     return response.data;
   },
+  async getEnvironments(repository) {
+    const response = await axios.get(
+      `//localhost:3000/api/v1/repository/${repository.id}/environments`
+    );
+    return response.data;
+  },
   async createRelease(repository, branch) {
     // http://localhost:3000/api/v1/repository/2/releases
     const response = await axios.post(
@@ -34,11 +40,19 @@ export default {
 
     return response.data;
   },
-  async deploy(repository, release) {
+  async deploy(repository, release, environment) {
+    const options = environment ? { environment } : {};
     const response = await axios.post(
-      `http://localhost:3000/api/v1/repository/${repository.id}/releases/${release.id}/deploy`
+      `http://localhost:3000/api/v1/repository/${repository.id}/releases/${release.id}/deploy`,
+      options
     );
 
+    return response.data;
+  },
+  async forceUpdateBranches(repository) {
+    const response = await axios.put(
+      `http://localhost:3000/api/v1/repository/${repository.id}/branches`
+    );
     return response.data;
   }
 };

@@ -7,7 +7,12 @@
   </div>
   <div class="container">
     <h3 class="mb-4">Create New Deployment</h3>
-    <div v-if="flashMessage" class="alert alert-dismissible fade show" :class="{ 'alert-success': flashMessage.type === 'success', 'alert-danger': flashMessage.type === 'error' }" role="alert">
+    <div v-if="flashMessage" class="alert alert-dismissible fade show" role="alert" 
+      :class="{ 
+        'alert-success': flashMessage.type === 'success', 
+        'alert-danger': flashMessage.type === 'error',
+        'alert-info': flashMessage.type === 'info' 
+      }">
       <span>{{ flashMessage.content }}</span>
       <button @click="onClickCloseFlashMessage" class="close" type="button" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -23,6 +28,7 @@
           </select>
         </div>
       </div>
+
       <div class="form-group row">
         <label for="selectRepository" class="col-sm-2 col-form-label">Repository</label>
         <div class="col-sm-3">
@@ -31,6 +37,7 @@
           </select>
         </div>
       </div>
+
       <div class="form-group row">
         <label for="selectSource" class="col-sm-2 col-form-label">
           {{ this.deploymentType === 'new' ? 'Branch' : 'Release' }}
@@ -40,7 +47,20 @@
             <option v-for="s in sources" :key="s.id" :value="s">{{ s.name }}</option>
           </select>
         </div>
+        <i v-if="this.deploymentType === 'new' && forceUpdateBranchesEnabled" 
+          @click.once="onClickForceUpdateBranches" 
+          class="col-form-label fas fa-sync form-icon-button"></i>
       </div>
+
+      <div v-if="environments.length > 0" class="form-group row">
+        <label for="selectEnvironment" class="col-sm-2 col-form-label">Environment</label>
+        <div class="col-sm-3">
+          <select v-model="environment" name="selectEnvironment" class="form-control">
+            <option v-for="e in environments" :key="e" :value="e">{{ e }}</option>
+          </select>
+        </div>
+      </div>
+
       <button v-if="deploymentEnabled" type="submit" class="btn btn-primary">Run Deployment</button>
       <button v-if="!deploymentEnabled" type="button" class="btn btn-primary" disabled>
         <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
@@ -93,18 +113,22 @@ export default {
   data() {
     return {
       flashMessage: null,
+      forceUpdateBranchesEnabled: true,
       deploymentEnabled: false,
       deploymentType: 'new',
       repository: null,
       repositories: [],
       source: null,
       sources: [],
-      tasks: []
+      tasks: [],
+      environment: null,
+      environments: []
     }
   },
   async created() {
     await this.updateRepositories();
     await this.updateSources();
+    await this.updateEnvironments();
     await this.updateHistory();
     this.deploymentEnabled = true;
   },
@@ -120,7 +144,7 @@ export default {
 
       this.deploymentEnabled = false;
 
-      await RepositoryService.deploy(this.repository, task.release);
+      await RepositoryService.deploy(this.repository, task.release, this.environment);
       await this.updateHistory();
 
       this.deploymentEnabled = true;
@@ -130,11 +154,31 @@ export default {
         content: `Successfully rolled back to ${task.release.name}.`
       };
     },
+    async onClickForceUpdateBranches() {
+      this.forceUpdateBranchesEnabled = false;
+
+      const response = await RepositoryService.forceUpdateBranches(this.repository);
+
+      if (response.inserted.length > 0) {
+        await this.updateSources();
+
+        this.flashMessage = {
+          type: 'success',
+          content: `Successfully updated branches. Found ${response.inserted.length} new branch(es).`
+        };
+      } else {
+        this.flashMessage = {
+          type: 'info',
+          content: `No new branches found.`
+        };
+      }
+    },
     onChangeType() {
       this.updateSources();
     },
     onChangeRepository() {
       this.updateSources();
+      this.updateEnvironments();
       this.updateHistory();
     },
     async onSubmitDeployment() {
@@ -149,7 +193,7 @@ export default {
         releaseToDeploy = release;
       }
 
-      await RepositoryService.deploy(this.repository, releaseToDeploy);
+      await RepositoryService.deploy(this.repository, releaseToDeploy, this.environment);
       await this.updateHistory();
 
       this.deploymentEnabled = true;
@@ -172,6 +216,10 @@ export default {
       }
       this.source = this.sources[0];
     },
+    async updateEnvironments() {
+      this.environments = await RepositoryService.getEnvironments(this.repository);
+      this.environment = this.environments[0];
+    },
     async updateHistory() {
       this.tasks = await RepositoryService.getTasks(this.repository);
     }
@@ -182,6 +230,16 @@ export default {
 <style>
 body {
   margin-bottom: 120px;
+}
+
+.form-icon-button {
+  line-height: 1.5 !important;
+  color: #2c3e50;
+}
+
+.form-icon-button:hover {
+  cursor: pointer;
+  color: #1e2b37;
 }
 
 .footer {

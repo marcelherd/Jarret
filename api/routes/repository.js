@@ -21,4 +21,6 @@ router.route('/:repositoryId/releases/:releaseId/deploy').post(repositoryControl
 
 router.route('/:repositoryId/tasks').get(repositoryController.getTasks);
 
+router.route('/:repositoryId/environments').get(repositoryController.getEnvironments);
+
 module.exports = router;
