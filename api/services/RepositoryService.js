@@ -61,7 +61,7 @@ async function createRelease(repositoryId, branch) {
   return await Release.query().insert(release);
 }
 
-async function deploy(repositoryId, releaseId) {
+async function deploy(repositoryId, releaseId, environment) {
   const startTime = new Date();
 
   const release = await Release.query().findById(releaseId);
@@ -72,10 +72,12 @@ async function deploy(repositoryId, releaseId) {
     // TODO: Fail deployment
   }
 
+  const env = environment ? configuration.environments[environment] : process.env;
+
   // TODO: This callback crap is really ugly, use Promise API?
   await gitService.provideWorkingCopy(repository, release, async (path) => {
     for (const command of configuration.commands) {
-      await exec(command, { cwd: path });
+      await exec(command, { cwd: path, env });
     }
   });
 
@@ -93,7 +95,10 @@ async function deploy(repositoryId, releaseId) {
 async function getTasks(repositoryId) {
   const tasks = await Task.query().withGraphFetched('release');
   // TODO: Should be handled via SQL probably
-  return tasks.filter((task) => task.release.repositoryId.toString() === repositoryId);
+  const tasksForRepository = tasks.filter(
+    (task) => task.release.repositoryId.toString() === repositoryId,
+  );
+  return tasksForRepository.sort((a, b) => b.id - a.id);
 }
 
 async function getEnvironments(repositoryId) {

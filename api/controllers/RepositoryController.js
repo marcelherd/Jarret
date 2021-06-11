@@ -46,7 +46,8 @@ async function createRelease(req, res) {
 
 async function deploy(req, res) {
   const { repositoryId, releaseId } = req.params;
-  await repositoryService.deploy(repositoryId, releaseId);
+  const { environment } = req.body;
+  await repositoryService.deploy(repositoryId, releaseId, environment);
   return res.json();
 }
 

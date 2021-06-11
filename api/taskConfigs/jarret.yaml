@@ -2,15 +2,17 @@ repository:
   name: 'Jarret'
   uri: 'https://github.com/marcelherd/Jarret.git'
   environments:
-    dev:
+    DEV:
       servers: '10.10.10.100'
-    qual:
+    QUAL:
       servers: '10.10.20.100,10.10.20.101'
-    prod:
+    PROD:
       servers: '10.10.30.100,10.10.30.101,10.10.30.102'
   commands:
     - 'git status'
     - 'ls -lA'
     - 'pwd'
     - 'echo "Just some sample commands $(date)" > OUTPUT'
+    - 'echo "Deploying to ${servers}" > TARGET'
+    - 'rm -Rf .git'
     - 'cp -R . /opt/jarret'
