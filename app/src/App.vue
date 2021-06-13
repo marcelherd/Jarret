@@ -8,8 +8,8 @@
   <div v-if="repositories.length === 0" class="container">
     <p class="lead">Looks like you have not configured any repositories yet.</p>
     <p class="mb-0">You will need to create a configuration for your repository, such as <mark>/api/taskConfigs/jarret.yaml</mark></p>    
-    <pre>
-      <code class="language-yaml">
+    <pre class="mb-0">
+      <code class="language-yaml mb-0">
 repository:
   name: 'Jarret'
   uri: 'https://github.com/marcelherd/Jarret.git'
@@ -27,6 +27,8 @@ repository:
     - 'cp -R . /opt/jarret'
       </code>
     </pre>
+    <p class="lead">Did you already create a configuration?</p>
+    <p>You will have to restart Jarret to pick up newly created configurations. Jarret can handle updates to existing configurations on-the-fly.</p>
   </div>
   <div v-if="repositories.length > 0" class="container">
     <h3 class="mb-4">Create New Deployment</h3>
@@ -90,6 +92,8 @@ repository:
         Deployment in progress...
       </button>
     </form>
+    <h3 class="mb-4 mt-5">Current Status</h3>
+    <p>Todo</p>
     <h3 class="mb-4 mt-5">Deployment History</h3>
     <table class="table table-bordered table-hover">
       <thead>
