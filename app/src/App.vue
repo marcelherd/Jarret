@@ -5,7 +5,30 @@
       <p class="lead">Welcome to Jarret, your simple software provisioning server.</p>
     </div>
   </div>
-  <div class="container">
+  <div v-if="repositories.length === 0" class="container">
+    <p class="lead">Looks like you have not configured any repositories yet.</p>
+    <p class="mb-0">You will need to create a configuration for your repository, such as <mark>/api/taskConfigs/jarret.yaml</mark></p>    
+    <pre>
+      <code class="language-yaml">
+repository:
+  name: 'Jarret'
+  uri: 'https://github.com/marcelherd/Jarret.git'
+  environments:
+    DEV:
+      servers: '10.10.10.100'
+    QUAL:
+      servers: '10.10.20.100,10.10.20.101'
+    PROD:
+      servers: '10.10.30.100,10.10.30.101,10.10.30.102'
+  commands:
+    - 'echo "Just some sample commands $(date)" > OUTPUT'
+    - 'echo "Deploying to ${servers}" > TARGET'
+    - 'rm -Rf .git'
+    - 'cp -R . /opt/jarret'
+      </code>
+    </pre>
+  </div>
+  <div v-if="repositories.length > 0" class="container">
     <h3 class="mb-4">Create New Deployment</h3>
     <div v-if="flashMessage" class="alert alert-dismissible fade show" role="alert" 
       :class="{ 
@@ -72,6 +95,7 @@
       <thead>
         <tr>
           <th>Status</th>
+          <th v-if="environment">Environment</th>
           <th>Version</th>
           <th>Branch</th>
           <th>Started at</th>
@@ -84,6 +108,7 @@
           <td :class="{ 'table-success': t.result === 'success', 'table-danger': t.result === 'failure' }">
             {{ t.result === 'success' ? 'Success' : 'Failure' }}
           </td>
+          <td v-if="environment">{{ t.environment }}</td>
           <td>{{ t.release.name }}</td>
           <td>{{ t.release.branch }}</td>
           <td>{{ formatDate(t.started_at) }}</td>
@@ -218,7 +243,7 @@ export default {
     },
     async updateEnvironments() {
       this.environments = await RepositoryService.getEnvironments(this.repository);
-      this.environment = this.environments[0];
+      this.environment = (this.environments && this.environments.length > 0) ? this.environments[0] : null;
     },
     async updateHistory() {
       this.tasks = await RepositoryService.getTasks(this.repository);

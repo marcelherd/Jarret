@@ -87,6 +87,7 @@ async function deploy(repositoryId, releaseId, environment) {
     finished_at: new Date(),
     result: 'success',
     releaseId: releaseId,
+    ...(environment && { environment }),
   };
 
   await Task.query().insert(task);

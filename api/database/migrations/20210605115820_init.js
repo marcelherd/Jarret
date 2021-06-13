@@ -3,7 +3,7 @@ exports.up = function (knex) {
     .createTable('repository', (table) => {
       table.increments();
       table.string('name').notNullable().unique();
-      table.string('uri').notNullable().unique();
+      table.string('uri').notNullable();
       table.timestamps(true, true);
     })
     .createTable('branch', (table) => {
