@@ -5,6 +5,12 @@ export default {
     const response = await axios.get("//localhost:3000/api/v1/repository");
     return response.data;
   },
+  async getDeploymentStatus(repository) {
+    const response = await axios.get(
+      `//localhost:3000/api/v1/repository/${repository.id}/deploymentStatus`
+    );
+    return response.data;
+  },
   async getBranches(repository) {
     const response = await axios.get(
       `//localhost:3000/api/v1/repository/${repository.id}/branches`

@@ -13,6 +13,12 @@ async function getRepository(req, res) {
   return res.json(repository);
 }
 
+async function getDeploymentStatus(req, res) {
+  const { repositoryId } = req.params;
+  const repository = await repositoryService.getDeploymentStatus(repositoryId);
+  return res.json(repository);
+}
+
 async function getBranches(req, res) {
   const { repositoryId } = req.params;
   const branches = await repositoryService.getBranches(repositoryId);
@@ -66,6 +72,7 @@ async function getEnvironments(req, res) {
 module.exports = {
   getRepositories,
   getRepository,
+  getDeploymentStatus,
   getBranches,
   updateBranches,
   getReleases,

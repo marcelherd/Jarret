@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.route('/').get(repositoryController.getRepositories);
 router.route('/:repositoryId').get(repositoryController.getRepository);
+router.route('/:repositoryId/deploymentStatus').get(repositoryController.getDeploymentStatus);
 
 router
   .route('/:repositoryId/branches')

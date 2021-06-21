@@ -15,6 +15,21 @@ async function getRepository(repositoryId) {
   return await Repository.query().findById(repositoryId);
 }
 
+async function getDeploymentStatus(repositoryId) {
+  const tasks = await getTasks(repositoryId);
+  const environments = await getEnvironments(repositoryId);
+
+  const deploymentStatus = {};
+  // TODO: Handle repositories with no environments
+  for (const environment of environments) {
+    deploymentStatus[environment] = {
+      ...tasks.find((task) => task.environment === environment), // assumes that getTasks returns them ordered by newest first
+    };
+  }
+
+  return deploymentStatus;
+}
+
 async function getBranches(repositoryId) {
   const repository = await Repository.query().findById(repositoryId).withGraphFetched('branches');
   const branches = repository.branches.sort((a, b) => {
@@ -112,6 +127,7 @@ async function getEnvironments(repositoryId) {
 module.exports = {
   getRepositories,
   getRepository,
+  getDeploymentStatus,
   getBranches,
   updateBranches,
   getReleases,

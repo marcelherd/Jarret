@@ -92,8 +92,29 @@ repository:
         Deployment in progress...
       </button>
     </form>
+
     <h3 class="mb-4 mt-5">Current Status</h3>
-    <p>Todo</p>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <th>Status</th>
+        <th>Environment</th>
+        <th>Version</th>
+        <th>Branch</th>
+        <th>Deployed since</th>
+      </thead>
+      <tbody>
+        <tr v-for="environment in Object.keys(status)" :key="status[environment].id">
+          <td :class="{ 'table-success': status[environment].result === 'success', 'table-danger': status[environment].result === 'failure' }">
+            {{ status[environment].result === 'success' ? 'Success' : 'Failure' }}
+          </td>
+          <td>{{ environment }}</td>
+          <td>{{ status[environment].release.name }}</td>
+          <td>{{ status[environment].release.branch }}</td>
+          <td>{{ formatDate(status[environment].finished_at) }}</td>  
+        </tr>
+      </tbody>
+    </table>
+
     <h3 class="mb-4 mt-5">Deployment History</h3>
     <table class="table table-bordered table-hover">
       <thead>
@@ -118,7 +139,9 @@ repository:
           <td>{{ formatDate(t.started_at) }}</td>
           <td>{{ formatDate(t.finished_at) }}</td>
           <td>
-            <button @click="onClickRollback(t)" class="btn btn-danger btn-block m-0" :class="{ 'disabled': !deploymentEnabled }" type="button">Rollback</button>
+            <!-- TODO: Handle repositories with no environments -->
+            <span v-if="environment && t.id === status[t.environment].id">Currently deployed</span>
+            <button v-else @click="onClickRollback(t)" class="btn btn-danger btn-block m-0" :class="{ 'disabled': !deploymentEnabled }" type="button">Rollback</button>
           </td>
         </tr>
       </tbody>
@@ -149,6 +172,7 @@ export default {
       repositories: [],
       source: null,
       sources: [],
+      status: null,
       tasks: [],
       environment: null,
       environments: []
@@ -159,6 +183,7 @@ export default {
     await this.updateSources();
     await this.updateEnvironments();
     await this.updateHistory();
+    await this.updateStatus();
     this.deploymentEnabled = true;
   },
   methods: {
@@ -169,6 +194,8 @@ export default {
       this.flashMessage = null;
     },
     async onClickRollback(task) {
+      // TODO: Don't show the button for the current release
+      
       if (!this.deploymentEnabled) return;
 
       this.deploymentEnabled = false;
@@ -209,6 +236,7 @@ export default {
       this.updateSources();
       this.updateEnvironments();
       this.updateHistory();
+      this.updateStatus();
     },
     async onSubmitDeployment() {
       if (!this.deploymentEnabled) return;
@@ -224,6 +252,7 @@ export default {
 
       await RepositoryService.deploy(this.repository, releaseToDeploy, this.environment);
       await this.updateHistory();
+      await this.updateStatus();
 
       this.deploymentEnabled = true;
 
@@ -237,7 +266,7 @@ export default {
       this.repository = this.repositories[0];
     },
     async updateSources() {
-      // TODO: Order releases by newest, for branches master should be first
+      // TODO: These should be separate and 'Existing Release' should not be possible if there are none
       if (this.deploymentType === 'new') {
         this.sources = await RepositoryService.getBranches(this.repository);
       } else {
@@ -251,6 +280,9 @@ export default {
     },
     async updateHistory() {
       this.tasks = await RepositoryService.getTasks(this.repository);
+    },
+    async updateStatus() {
+      this.status = await RepositoryService.getDeploymentStatus(this.repository);
     }
   }
 }
