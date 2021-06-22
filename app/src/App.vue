@@ -5,7 +5,11 @@
       <p class="lead">Welcome to Jarret, your simple software provisioning server.</p>
     </div>
   </div>
-  <div v-if="repositories.length === 0" class="container">
+  <div v-if="!initialized" class="container">
+    <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
+    Fetching data, please be patient...
+  </div>
+  <div v-if="initialized && repositories.length === 0" class="container">
     <p class="lead">Looks like you have not configured any repositories yet.</p>
     <p class="mb-0">You will need to create a configuration for your repository, such as <mark>/api/taskConfigs/jarret.yaml</mark></p>    
     <pre class="mb-0">
@@ -30,7 +34,7 @@ repository:
     <p class="lead">Did you already create a configuration?</p>
     <p>You will have to restart Jarret to pick up newly created configurations. Jarret can handle updates to existing configurations on-the-fly.</p>
   </div>
-  <div v-if="repositories.length > 0" class="container">
+  <div v-if="initialized && repositories.length > 0" class="container">
     <h3 class="mb-4">Create New Deployment</h3>
     <div v-if="flashMessage" class="alert alert-dismissible fade show" role="alert" 
       :class="{ 
@@ -105,12 +109,12 @@ repository:
       <tbody>
         <tr v-for="environment in Object.keys(status)" :key="status[environment].id">
           <td :class="{ 'table-success': status[environment].result === 'success', 'table-danger': status[environment].result === 'failure' }">
-            {{ status[environment].result === 'success' ? 'Success' : 'Failure' }}
+            {{ status[environment].result === 'success' ? 'Success' : status[environment].result === 'failure' ? 'Failure' : 'Never deployed'}}
           </td>
           <td>{{ environment }}</td>
-          <td>{{ status[environment].release.name }}</td>
-          <td>{{ status[environment].release.branch }}</td>
-          <td>{{ formatDate(status[environment].finished_at) }}</td>  
+          <td>{{ status[environment].release ? status[environment].release.name : 'N/A' }}</td>
+          <td>{{ status[environment].release ? status[environment].release.branch : 'N/A' }}</td>
+          <td>{{ status[environment].finished_at ? formatDate(status[environment].finished_at) : 'N/A' }}</td>  
         </tr>
       </tbody>
     </table>
@@ -164,6 +168,7 @@ export default {
   },
   data() {
     return {
+      initialized: false,
       flashMessage: null,
       forceUpdateBranchesEnabled: true,
       deploymentEnabled: false,
@@ -178,15 +183,19 @@ export default {
       environments: []
     }
   },
-  async created() {
-    await this.updateRepositories();
-    await this.updateSources();
-    await this.updateEnvironments();
-    await this.updateHistory();
-    await this.updateStatus();
-    this.deploymentEnabled = true;
+  created() {
+    this.fetchData();
   },
   methods: {
+    async fetchData() {
+      await this.updateRepositories();
+      await this.updateSources();
+      await this.updateEnvironments();
+      await this.updateHistory();
+      await this.updateStatus();
+      this.deploymentEnabled = true;
+      this.initialized = true;
+    },
     formatDate(date) {
       return new Intl.DateTimeFormat('default', { dateStyle: 'full', timeStyle: 'long' }).format(new Date(date));
     },

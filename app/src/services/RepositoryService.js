@@ -6,30 +6,40 @@ export default {
     return response.data;
   },
   async getDeploymentStatus(repository) {
+    if (!repository) return {};
+
     const response = await axios.get(
       `//localhost:3000/api/v1/repository/${repository.id}/deploymentStatus`
     );
     return response.data;
   },
   async getBranches(repository) {
+    if (!repository) return [];
+
     const response = await axios.get(
       `//localhost:3000/api/v1/repository/${repository.id}/branches`
     );
     return response.data;
   },
   async getReleases(repository) {
+    if (!repository) return [];
+
     const response = await axios.get(
       `//localhost:3000/api/v1/repository/${repository.id}/releases`
     );
     return response.data;
   },
   async getTasks(repository) {
+    if (!repository) return [];
+
     const response = await axios.get(
       `//localhost:3000/api/v1/repository/${repository.id}/tasks`
     );
     return response.data;
   },
   async getEnvironments(repository) {
+    if (!repository) return [];
+
     const response = await axios.get(
       `//localhost:3000/api/v1/repository/${repository.id}/environments`
     );
@@ -56,6 +66,8 @@ export default {
     return response.data;
   },
   async forceUpdateBranches(repository) {
+    if (!repository) return [];
+
     const response = await axios.put(
       `http://localhost:3000/api/v1/repository/${repository.id}/branches`
     );
