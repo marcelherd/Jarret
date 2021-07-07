@@ -18,17 +18,19 @@ repository:
   name: 'Jarret'
   uri: 'https://github.com/marcelherd/Jarret.git'
   environments:
-    DEV:
-      servers: '10.10.10.100'
-    QUAL:
-      servers: '10.10.20.100,10.10.20.101'
-    PROD:
-      servers: '10.10.30.100,10.10.30.101,10.10.30.102'
+    Development:
+      node_env: 'development'
+    Production:
+      node_env: 'production'
   commands:
-    - 'echo "Just some sample commands $(date)" > OUTPUT'
-    - 'echo "Deploying to ${servers}" > TARGET'
+    - 'npm install'
+    - 'npm run lint'
+    - 'npm run test'
+    - 'npm run gulp'
     - 'rm -Rf .git'
     - 'cp -R . /opt/jarret'
+    - 'cd /opt/jarret'
+    - 'NODE_ENV=${node_env} npm start'
       </code>
     </pre>
     <p class="lead">Did you already create a configuration?</p>
