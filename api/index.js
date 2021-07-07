@@ -1,7 +1,13 @@
-global.PROJECT_DIR = require('path').resolve(__dirname);
 require('dotenv').config();
 
+const path = require('path');
+
 const express = require('express');
+
+const PORT = process.env.PORT || 3000;
+
+global.PROJECT_DIR = path.resolve(__dirname);
+global.BASE_DIR = path.join(__dirname, '..');
 
 const app = express();
 
@@ -9,6 +15,6 @@ const app = express();
 require('./config/database')();
 require('./config/express')(app);
 
-app.listen(3000, () => {
-  console.log('Jarret is running on http://localhost:3000');
+app.listen(PORT, () => {
+  console.log(`Jarret is running on http://localhost:${PORT}`);
 });

@@ -1,10 +1,10 @@
 # Jarret
 
-Jarret is a simple provisioning server.
+Jarret is a simple CI/CD server.
 
 ## Demo
 
-![Demo](https://github.com/marcelherd/jarret/raw/master/docs/demo.gif)
+TODO
 
 ## Prerequisites
 

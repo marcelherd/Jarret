@@ -2,7 +2,7 @@
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
       <h1 class="display-4">Jarret</h1>
-      <p class="lead">Welcome to Jarret, your simple software provisioning server.</p>
+      <p class="lead">Welcome to Jarret, your simple CI/CD server.</p>
     </div>
   </div>
   <div v-if="!initialized" class="container">
@@ -144,7 +144,7 @@ repository:
           <td>{{ formatDate(t.finished_at) }}</td>
           <td>
             <!-- TODO: Handle repositories with no environments -->
-            <span v-if="environment && t.id === status[t.environment].id">Currently deployed</span>
+            <span class="no-wrap" v-if="environment && t.release.name === status[t.environment].release.name">Deployed: <mark>{{ t.environment }}</mark></span>
             <button v-else @click="onClickRollback(t)" class="btn btn-danger btn-block m-0" :class="{ 'disabled': !deploymentEnabled }" type="button">Rollback</button>
           </td>
         </tr>
@@ -154,7 +154,7 @@ repository:
   <footer class="footer">
     <div class="container">
       <span class="text-muted float-left">Copyright &copy; 2021 Marcel Herd</span>
-      <span class="text-muted float-right">Jarret v0.4.0</span>
+      <span class="text-muted float-right">Jarret v0.4.1-alpha</span>
     </div>
   </footer>
 </template>
@@ -197,7 +197,17 @@ export default {
       this.initialized = true;
     },
     formatDate(date) {
-      return new Intl.DateTimeFormat('default', { dateStyle: 'full', timeStyle: 'long' }).format(new Date(date));
+      const options = {
+        day: "2-digit",
+        month: "long",
+        year: "2-digit",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: false,
+        timeZone: "UTC",
+      };
+      return new Intl.DateTimeFormat('default', options).format(new Date(date));
     },
     onClickCloseFlashMessage() {
       this.flashMessage = null;
@@ -211,6 +221,7 @@ export default {
 
       await RepositoryService.deploy(this.repository, task.release, this.environment);
       await this.updateHistory();
+      await this.updateStatus();
 
       this.deploymentEnabled = true;
 
@@ -300,6 +311,10 @@ export default {
 <style>
 body {
   margin-bottom: 120px;
+}
+
+.no-wrap {
+  white-space: nowrap;
 }
 
 .form-icon-button {
